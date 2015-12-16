@@ -1,0 +1,4 @@
+This is the official github for Team Vendawa:
+-SMSllight: Code for reading a text from the cell phone module
+-testSlinger: Dispensing with user input (push button)
+-textParsing: Code for parsing through JSON messages (still in development)
