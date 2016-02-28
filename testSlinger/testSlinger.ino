@@ -1,4 +1,5 @@
-// Motor driver code 
+// This is currently the code to dispense a blister pack with a digital input from
+// a push button 
 
 #include "MotorDriver.h"
 
