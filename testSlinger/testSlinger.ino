@@ -4,8 +4,8 @@
 #include "MotorDriver.h"
 
 int inputPin = 7; // pushbutton connected to digital pin 7 
-int frontSensorPin = 0;
-int backSensorPin = 2;
+int frontSensorPin = 2;
+int backSensorPin = 0;
 float valBack = 0;
 float valFront = 0;
 float valPrev = 0;
@@ -17,11 +17,11 @@ int frontFlag = 0;
 void setup()
 {
   motordriver.init();
-  motordriver.setSpeed(200,MOTORB);
-  motordriver.setSpeed(75,MOTORA);
+  motordriver.setSpeed(100,MOTORB);
+  motordriver.setSpeed(90,MOTORA);
   pinMode(inputPin, INPUT);
-  threshFront = analogRead(frontSensorPin);
-  threshBack = analogRead(backSensorPin);
+  threshFront = (analogRead(frontSensorPin) + analogRead(frontSensorPin))/2.0;
+  threshBack = (analogRead(backSensorPin) + analogRead(backSensorPin))/2.0;
   Serial.begin(9600);
 }
   
@@ -30,17 +30,17 @@ void loop()
 {
 //  Serial.print("thresh back:   ");
 //  Serial.println(threshBack);
-//  valBack = analogRead(backSensorPin);
-//   Serial.print("sensor back:    ");
-//   Serial.println(valBack);
-   
+   valBack = analogRead(backSensorPin);
+   Serial.println(valBack);
+//   
 //   valFront = analogRead(frontSensorPin);
-//   Serial.print("sensor front:    ");
+////   Serial.print("sensor front:    ");
 //   Serial.println(valFront);
-   
+//  motordriver.rotateWithID(0,MOTORB); //move back motor
 
   valBack = analogRead(backSensorPin);
-  // if button is pressed 
+  Serial.println(valBack);
+  Serial.println(digitalRead(inputPin));
   if(digitalRead(inputPin) == HIGH) { 
     while(valBack < threshBack+100.0) {
     valBack = analogRead(backSensorPin); // update back sensor reading
@@ -60,17 +60,19 @@ void loop()
     valFront = analogRead(frontSensorPin); // update sensor reading 
     Serial.println(valFront);
     
-    while(valFront < threshFront+50.0)
+    while(valFront < threshFront+200.0)
     {
       valFront = analogRead(frontSensorPin);
       motordriver.rotateWithID(1,MOTORA);
       Serial.println("Going until front sensor covered");
+      Serial.println(valFront);
     }
     
-    while(valFront > threshFront+20.0)
+    while(valFront > threshFront+100.0)
     {
+      Serial.println("Moving until front sensor uncovered");
       valFront = analogRead(frontSensorPin);
-      Serial.println("Front sensor covered, moving until not covered");
+      Serial.println(valFront);
       motordriver.rotateWithID(1,MOTORA);
     }
     motordriver.stop();

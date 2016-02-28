@@ -30,7 +30,7 @@ uint8_t type;
 
 void setup() {
   while (!Serial);
-
+  Serial.println("TEST");
   Serial.begin(115200);
   Serial.println(F("FONA basic test"));
   Serial.println(F("Initializing....(May take 3 seconds)"));
